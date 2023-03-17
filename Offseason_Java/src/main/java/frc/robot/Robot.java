@@ -96,14 +96,14 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     // motor objects and PWM channels
-    frontLeft = new Talon(0);
-    rearLeft = new Talon(1);
-    frontRight = new Talon(2);
-    rearRight = new Talon(3);
-    barrel = new Spark(4);
-    turret = new Spark(5);
-    intake = new Spark (6);
-    intakeDoor = new Servo(7);
+    frontLeft = new Talon(6);
+    rearLeft = new Talon(7);
+    frontRight = new Talon(8);
+    rearRight = new Talon(9);
+    barrel = new Spark(3);
+    turret = new Spark(4);
+    intake = new Talon (1);
+    intakeDoor = new Servo(0);
 
     // invert left side of drive train
     frontLeft.setInverted(true);
@@ -251,7 +251,7 @@ public class Robot extends TimedRobot {
     }else if(arm_stick.getRawAxis(1) < 0){
       intakePower = -0.2;
     }else if(arm_stick.getRawAxis(3) < 0){
-      intakePower = 0.2;
+      barrelPower = 0.2;
     }else if(arm_stick.getRawAxis(3) > 0){
       intakePower = -0.2;
     }else{
@@ -260,16 +260,15 @@ public class Robot extends TimedRobot {
       rot = d_stick.getRawAxis(4);
       intakePower = 0;
       barrelPower = arm_stick.getRawAxis(1);
-      doorPosition = 0;
       turretPower = 0;
     }
 
     // driver controls
     if(d_stick.getRawButton(BUTTON_A)){
-      //stuff for driver button A 
+      intakeDoor.set(0);
       //automatic chassis movement stuff?
     } else if(arm_stick.getRawButton(BUTTON_B)){
-      // stuff for driver button B
+      intakeDoor.set(1);
     } else{ 
       //drive using joysticks unless automatic chassis movement is 
       //happening in one of the above cases
@@ -282,7 +281,6 @@ public class Robot extends TimedRobot {
     barrel.set(barrelPower);
     turret.set(turretPower);
     intake.set(intakePower);
-    intakeDoor.set(doorPosition);
     
     SmartDashboard.updateValues();
   }
